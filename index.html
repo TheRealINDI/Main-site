@@ -1,6 +1,232 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Link Page</title>
+
+<style>
+:root{
+  --bg:#ffffff;
+  --text:#111;
+  --card:#f3f3f3;
+  --accent:#4f46e5;
+  --outline: rgba(0,0,0,0.15);
+  --track: #e9e9e9;
+}
+
+body.dark{
+  --bg:#0b0b0f;
+  --text:#f5f5f5;
+  --card:#1b1b22;
+  --accent:#8b5cf6;
+  --outline: rgba(255,255,255,0.15);
+  --track:#14141a;
+}
+
+body{
+  margin:0;
+  font-family:system-ui, Arial;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  min-height:100vh;
+  transition:0.35s ease;
+}
+
+/* container */
+.container{
+  width:100%;
+  max-width:480px;
+  padding:22px;
+  text-align:center;
+}
+
+/* profile */
+.profile img{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  border:2px solid var(--outline);
+}
+.profile h1{
+  margin:10px 0 5px;
+}
+.profile p{
+  margin:0;
+  opacity:0.7;
+  font-size:14px;
+}
+
+/* links */
+.link{
+  display:block;
+  background:var(--card);
+  padding:14px;
+  margin:10px 0;
+  border-radius:14px;
+  text-decoration:none;
+  color:var(--text);
+  transition:0.25s ease;
+  font-weight:500;
+  border:1px solid var(--outline);
+}
+.link:hover{
+  transform:translateY(-2px);
+  background:var(--accent);
+  color:white;
+}
+
+/* ================= SWITCH ================= */
+
+.switch-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:22px;
+}
+
+/* OUTER */
+.switch{
+  width:84px;
+  height:40px;
+  cursor:pointer;
+}
+
+/* TRACK */
+.track{
+  width:100%;
+  height:100%;
+  border-radius:999px;
+
+  background:var(--track);
+  border:1.5px solid var(--outline);
+
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 9px;
+  box-sizing:border-box;
+
+  overflow:hidden;
+  transition:0.35s ease;
+}
+
+/* animated background fill */
+.track::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:50%;
+
+  background:var(--accent);
+  opacity:0.18;
+
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1);
+  transform: translateX(0%);
+}
+
+/* move background when dark */
+body.dark .track::before{
+  transform: translateX(100%);
+}
+
+/* click press */
+.switch:active .track{
+  transform:scale(0.96);
+}
+
+/* icons */
+.icon{
+  font-size:14px;
+  opacity:0.65;
+  user-select:none;
+  z-index:2;
+}
+
+/* KNOB */
+.knob{
+  position:absolute;
+  top:50%;
+  left:4px;
+
+  width:32px;
+  height:32px;
+  border-radius:50%;
+
+  background:var(--accent);
+  border:1.5px solid var(--outline);
+
+  transform:translateY(-50%);
+  transition:
+    left 0.38s cubic-bezier(0.2, 0.9, 0.2, 1),
+    transform 0.15s ease,
+    box-shadow 0.3s ease;
+
+  box-shadow:0 6px 14px rgba(0,0,0,0.25);
+}
+
+/* DARK POSITION (SNAP RIGHT) */
+body.dark .knob{
+  left:48px;
+}
+
+/* press animation */
+.switch:active .knob{
+  transform:translateY(-50%) scale(0.9);
+}
+
+/* subtle glow when active */
+body.dark .knob{
+  box-shadow:0 6px 18px rgba(139,92,246,0.35);
+}
+
+/* responsive */
+@media (max-width:600px){
+  .container{ padding:16px; }
+}
+</style>
+</head>
+
 <body>
-<h1>Hi! This site is still under construction. please come back later!</h1>
+
+<div class="container">
+
+  <!-- SWITCH -->
+  <div class="switch-wrap">
+    <div class="switch" onclick="toggleMode()">
+      <div class="track">
+        <span class="icon">☾</span>
+        <span class="icon">☀</span>
+        <div class="knob"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="profile">
+    <img src="https://via.placeholder.com/150" alt="profile"/>
+    <h1>Jouw Naam</h1>
+    <p>Korte bio hier</p>
+  </div>
+
+  <!-- LINKS -->
+  <a class="link" href="#">Website</a>
+  <a class="link" href="#">YouTube</a>
+  <a class="link" href="#">Instagram</a>
+  <a class="link" href="#">TikTok</a>
+
+</div>
+
+<script>
+function toggleMode(){
+  document.body.classList.toggle("dark");
+}
+</script>
+
 </body>
 </html>
