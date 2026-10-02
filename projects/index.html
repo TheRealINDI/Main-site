@@ -3,62 +3,160 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>IndiFPV - Hack Club</title> <!-- max 60 -->
-<meta name="description" content="Welcome to IndiFPV this is my site for all of my projects!"> <!-- max 150 -->
+<title>IndiFPV</title> <!-- max 60 -->
+<meta name="description" content="Welcome to IndiFPV this is my site for all of my socials and links!"> <!-- max 150 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://indifpv.org">
+  
 
 <style>
 :root{
-  --bg:#ffffff;
-  --text:#111;
-  --card:#f3f3f3;
-  --accent:#4f46e5;
-  --outline: rgba(0,0,0,0.15);
-  --track: #e9e9e9;
-}
-
-body.dark{
-  --bg:#0b0b0f;
   --text:#f5f5f5;
-  --card:#1b1b22;
+  --glass: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.12);
   --accent:#8b5cf6;
-  --outline: rgba(255,255,255,0.15);
-  --track:#14141a;
 }
 
+/* BACKGROUND */
 body{
   margin:0;
   font-family:system-ui, Arial;
-  background:var(--bg);
   color:var(--text);
+
   display:flex;
   justify-content:center;
   min-height:100vh;
-  transition:0.35s ease;
+
+  background: linear-gradient(120deg,
+    rgba(0,0,0,0.95),
+    rgba(15,15,22,0.98),
+    rgba(10,10,14,1)
+  );
+
+  background-size:300% 300%;
+  animation: move 26s ease-in-out infinite;
 }
 
+@keyframes move{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
 
+/* LAYOUT */
+.container{
+  width:100%;
+  max-width:520px;
+  padding:20px;
+  text-align:center;
+  animation: fade 0.6s ease;
+}
 
-  <!-- SWITCH -->
-  <div class="switch-wrap">
-    <div class="switch" onclick="toggleMode()">
-      <div class="track">
-        <span class="icon">☾</span>
-        <span class="icon">☀</span>
-        <div class="knob"></div>
-      </div>
-    </div>
-  </div>
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
 
-  <!-- PROFILE -->
+/* PROFILE */
+.profile img{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  border:1px solid var(--border);
+}
+
+.profile p{
+  opacity:0.75;
+  font-size:14px;
+}
+
+/* LINKS */
+.link{
+  display:block;
+  margin:12px 0;
+  padding:14px;
+
+  border-radius:16px;
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+
+  background:var(--glass);
+  backdrop-filter: blur(14px);
+  border:1px solid var(--border);
+
+  transition:0.2s ease;
+}
+
+.link:hover{
+  transform:translateY(-2px);
+  border:1px solid var(--accent);
+}
+
+/* CLICK BUTTON */
+.click-btn{
+  position:fixed;
+  top:15px;
+  right:15px;
+
+  padding:10px 14px;
+  border-radius:12px;
+
+  background:var(--glass);
+  border:1px solid var(--border);
+
+  cursor:pointer;
+  user-select:none;
+
+  backdrop-filter: blur(10px);
+
+  transition:0.2s ease;
+}
+
+.click-btn:active{
+  transform:scale(0.92);
+}
+
+/* COUNTER */
+.counter{
+  position:fixed;
+  top:60px;
+  right:15px;
+
+  padding:10px 12px;
+  border-radius:12px;
+
+  background:rgba(0,0,0,0.6);
+  border:1px solid var(--border);
+
+  font-size:13px;
+}
+
+/* RESPONSIVE */
+@media (max-width:600px){
+  .container{ padding:16px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- CLICK -->
+<div class="click-btn" onclick="addClick()">🍪 Click</div>
+
+<!-- COUNTER -->
+<div class="counter" id="counter">Clicks: 0</div>
+
+<div class="container">
+
   <div class="profile">
-    <img src="https://i.postimg.cc/CK3BbqtC/700154998-18143847667444587-7539969417415811486-n.jpg" alt="profile"/>
-    <h1>Hack Club</h1>
-    <p>Heres all of my hack club projects:</p>
+    <img src="https://i.postimg.cc/CK3BbqtC/700154998-18143847667444587-7539969417415811486-n.jpg"/>
+    <h1>IndiFPV</h1>
+    <p>I like drones - they're basically my therapist; they're expensive, but they listen. (most of the times)</p>
   </div>
 
   <!-- LINKS -->
-  <p>Stardance:</p>
+ <p>Stardance:</p>
   <p></p>
   <a class="link" href="https://droneos.indifpv.org">DroneOS</a>
   <p></p>
@@ -71,13 +169,31 @@ body{
   <p></p>
   <p></p>
   <a class="link" href="https://www.indifpv.org">Back to main page</a>
+  
+  <footer>
+    <p>This site was vibecoded by Indi. I made all of my projects using no AI.</p>
+    <p>© 2026 IndiFPV · All rights reserved.</p>
+  </footer>
+  
 
 </div>
 
 <script>
-function toggleMode(){
-  document.body.classList.toggle("dark");
+
+let clicks = Number(localStorage.getItem("clicks") || 0);
+
+updateUI();
+
+function addClick(){
+  clicks++;
+  localStorage.setItem("clicks", clicks);
+  updateUI();
 }
+
+function updateUI(){
+  document.getElementById("counter").innerText = "Clicks: " + clicks;
+}
+
 </script>
         <span style="display: none;">indifpv, indifpv projects, indi, indi von eijnsbergen, indifov, indie fpv, indy fpv, indifpvprojecten, indifpv projecten, indifpb, indifpvp, indifpp, indifvo, indifv, indifp, indifpvprofects, indifpv peojects, indi von eijnsberget, indi von eijnsbergn, indi von eijnsberged, indi von eynsbergen, indi van eijnsbergen, indi van eynsbergen, indy von eijnsbergen, indy van eijnsbergen, indy von eynsbergen, indy van eynsbergen, indy van ijnsbergen, indi van ijnsbergen, indy von ijnsbergen, indi von ijnsbergen, indy van eijnsberget, indy van ijnsberged, indy von eijnsbergn, indie von eijnsbergen, indie van eijnsbergen, indie van ijnsbergen, indie van eynsbergen, in die von eijnsbergen, in die van ijnsbergen, indifpvorg, indifpv org</span>
 </body>
